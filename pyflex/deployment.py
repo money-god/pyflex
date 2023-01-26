@@ -77,7 +77,7 @@ class GfDeployment:
 
     NETWORKS = {
         "1": "mainnet",
-        "42": "kovan"
+        "5": "goerli",
     }
 
     class Config:
@@ -106,7 +106,6 @@ class GfDeployment:
             self.prot = prot
             self.oracle_relayer = oracle_relayer
             self.redemption_price_snap = redemption_price_snap
-            #self.vote_quorum = vote_quorum
             self.esm = esm
             self.global_settlement = global_settlement
             self.proxy_registry = proxy_registry
