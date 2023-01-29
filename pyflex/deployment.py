@@ -175,6 +175,7 @@ class GfDeployment:
                 uniswap_router = None
 
             collaterals = {}
+            print(GfDeployment.Config._infer_collaterals_from_addresses(conf.keys()))
             for name in GfDeployment.Config._infer_collaterals_from_addresses(conf.keys()):
                 collateral_type = CollateralType(name[0].replace('_', '-'))
                 if name[1] == "ETH":
