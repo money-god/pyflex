@@ -10,7 +10,7 @@ ETH_RPC_URL = os.environ['ETH_RPC_URL']
 web3 = Web3(HTTPProvider(endpoint_uri=ETH_RPC_URL,
                          request_kwargs={"timeout": 10}))
 
-geb = GfDeployment.from_node(web3, 'rai')
+geb = GfDeployment.from_node(web3, 'tai')
 safe_owner = None
 
 safes = []
@@ -24,11 +24,11 @@ while True:
     if owner.address == '0x0000000000000000000000000000000000000000':
         break
 
-    safes.append((safe_id, safe.address.address, owner.address, str(safe.locked_collateral), str(safe.generated_debt)))
+    safes.append((safe_id, safe.address.address, owner.address, str(safe.collateral_type), str(safe.locked_collateral), str(safe.generated_debt)))
 
     safe_id += 1
 
 with open(out_file, 'w') as f:
     write = csv.writer(f)
-    write.writerow(['safe_id', 'safe', 'owner', 'collateral', 'debt'])
+    write.writerow(['safe_id', 'safe', 'owner', 'collateral_type', 'collateral', 'debt'])
     write.writerows(safes)
