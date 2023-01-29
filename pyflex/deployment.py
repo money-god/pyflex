@@ -175,7 +175,6 @@ class GfDeployment:
                 uniswap_router = None
 
             collaterals = {}
-            print(GfDeployment.Config._infer_collaterals_from_addresses(conf.keys()))
             for name in GfDeployment.Config._infer_collaterals_from_addresses(conf.keys()):
                 collateral_type = CollateralType(name[0].replace('_', '-'))
                 if name[1] == "ETH":
@@ -193,13 +192,12 @@ class GfDeployment:
 
                 # Detect which auction house is used
                 try:
-                    coll_auction_house = IncreasingDiscountCollateralAuctionHouse(web3, Address(conf[f'GEB_COLLATERAL_AUCTION_HOUSE_{name[0]}']))
-                    #coll_auction_house = FixedDiscountCollateralAuctionHouse(web3, Address(conf[f'GEB_COLLATERAL_AUCTION_HOUSE_{name[0]}']))
+                    coll_auction_house = IncreasingDiscountCollateralAuctionHouse(web3, Address(conf[f'COLLATERAL_AUCTION_HOUSE_{name[0]}']))
                 except:
                     try:
-                        coll_auction_house = EnglishCollateralAuctionHouse(web3, Address(conf[f'GEB_COLLATERAL_AUCTION_HOUSE_{name[0]}']))
+                        coll_auction_house = EnglishCollateralAuctionHouse(web3, Address(conf[f'COLLATERAL_AUCTION_HOUSE_{name[0]}']))
                     except:
-                        raise ValueError(f"Unknown auction house: GEB_COLLATERAL_AUCTION_HOUSE_{name[0]}")
+                        raise ValueError(f"Unknown auction house: COLLATERAL_AUCTION_HOUSE_{name[0]}")
 
                 try:
                     flash_proxy = GebETHKeeperFlashProxy(web3, Address(conf[f'GEB_UNISWAP_SINGLE_KEEPER_FLASH_PROXY_{name[0]}']))
@@ -284,7 +282,7 @@ class GfDeployment:
                 if collateral.osm:
                     conf_dict[f'OSM_{name[1]}'] = collateral.osm.address.address
                 conf_dict[f'GEB_JOIN_{name[0]}'] = collateral.adapter.address.address
-                conf_dict[f'GEB_COLLATERAL_AUCTION_HOUSE_{name[0]}'] = collateral.collateral_auction_house.address.address
+                conf_dict[f'COLLATERAL_AUCTION_HOUSE_{name[0]}'] = collateral.collateral_auction_house.address.address
 
             return conf_dict
 
