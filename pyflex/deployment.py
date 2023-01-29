@@ -241,11 +241,11 @@ class GfDeployment:
         def _infer_collaterals_from_addresses(keys: []) -> List:
             collaterals = []
             for key in keys:
-                match = re.search(r'GEB_COLLATERAL_AUCTION_HOUSE_(([a-zA-Z]+)_[a-zA-Z]+)$', key)
+                match = re.search(r'COLLATERAL_AUCTION_HOUSE_(([a-zA-Z]+)_[a-zA-Z]+)$', key)
                 if match:
                     collaterals.append((match.group(1), match.group(2))) # ('ETH_A', 'ETH')
                     continue
-                match = re.search(r'GEB_COLLATERAL_AUCTION_HOUSE_([a-zA-Z]+)$', key)
+                match = re.search(r'COLLATERAL_AUCTION_HOUSE_([a-zA-Z]+)$', key)
                 if match:
                     collaterals.append((match.group(1), match.group(1)))
 
