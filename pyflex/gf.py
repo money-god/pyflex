@@ -1240,3 +1240,51 @@ class GebStaking(Contract):
 
     def auction_ancestor_tokens(self) -> Transact:
         return Transact(self, self.web3, self.abi, self.address, self._contract, 'auctionAncestorTokens', [])
+
+class BasefeeIncentiveRelayer(Contract):
+    """A client for the `OracleRelayer` contract, which interacts with SAFEEngine for the purpose of managing collateral prices.
+    Users generally have no need to interact with this contract; it is included for unit testing purposes.
+
+    Ref. <https://github.com/reflexer-labs/geb/blob/master/src/OracleRelayer.sol>
+    """
+
+    abi = Contract._load_abi(__name__, 'abi/BasefeeIncentiveRelayer.abi')
+    #bin = Contract._load_bin(__name__, 'abi/OracleRelayer.bin')
+
+    def __init__(self, web3: Web3, address: Address):
+        assert isinstance(web3, Web3)
+        assert isinstance(address, Address)
+
+        self.web3 = web3
+        self.address = address
+        self._contract = self._get_contract(web3, self.abi, address)
+
+    def call_delay(self) -> int:
+        return self._contract.functions.callDelay().call()
+
+    def call_sig(self) -> str:
+        return self._contract.functions.callSig().call()
+
+    def coin(self) -> Address:
+        return self._contract.functions.coin().call()
+
+    def coin_oracle(self) -> Address:
+        return self._contract.functions.coinOracle().call()
+
+    def eth_oracle(self) -> Address:
+        return self._contract.functions.ethOracle().call()
+
+    def fixed_reward(self) -> Wad:
+        return Wad(self._contract.functions.fixedReward().call())
+
+    def last_call_made(self) -> int:
+        return self._contract.functions.lastCallMade().call()
+
+    def target(self) -> Address:
+        return self._contract.functions.target().call()
+
+    def treasury(self) -> Address:
+        return self._contract.functions.treasury().call()
+
+    def __repr__(self):
+        return f"BasefeeIncentiveRelayer('{self.address}')"
